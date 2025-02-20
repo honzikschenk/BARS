@@ -1,0 +1,3 @@
+[submodule "StateManager"]
+	path = StateManager
+	url = https://github.com/honzikschenk/StateManager
