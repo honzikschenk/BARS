@@ -31,16 +31,19 @@
 
 Adafruit_PWMServoDriver pwm = Adafruit_PWMServoDriver();
 
-#define SERVOMIN 150  // This is the 'minimum' pulse length count (out of 4096)
-#define SERVOMAX 600  // This is the 'maximum' pulse length count (out of 4096)
-#define USMIN 600     // This is the rounded 'minimum' microsecond length based on the minimum pulse of 150
-#define USMAX 2400    // This is the rounded 'maximum' microsecond length based on the maximum pulse of 600
+#define SERVOMIN 120  // This is the 'minimum' pulse length count (out of 4096) (20000 / 4096) 102.4 TO 512
+#define SERVOMAX 505  // This is the 'maximum' pulse length count (out of 4096)
 #define SERVO_FREQ 50 // Analog servos run at ~50 Hz updates
+
+int interpolateDegrees(int degrees, int range);
 
 String input;
 
 // our servo # counter
-uint8_t servonum = 1;
+uint8_t servonum = 0;
+
+// the number of servos, up to 8
+uint8_t servocount = 3;
 
 void setup()
 {
@@ -65,12 +68,14 @@ void setup()
      * Failure to correctly set the int.osc value will cause unexpected PWM results
      */
     pwm.setOscillatorFrequency(27000000);
-    pwm.setPWMFreq(SERVO_FREQ); // Analog servos run at ~50 Hz updates
+    pwm.setPWMFreq(SERVO_FREQ);
 
-    pwm.setPWM(0, 0, SERVOMIN);
-    pwm.setPWM(1, 0, SERVOMIN);
+    pwm.setPWM(0, 0, interpolateDegrees(0, 270));
+    pwm.setPWM(1, 0, interpolateDegrees(0, 270));
+    pwm.setPWM(2, 0, interpolateDegrees(0, 180));
+    pwm.setPWM(3, 0, interpolateDegrees(0, 180));
 
-    delay(10);
+    delay(1000);
 }
 
 void loop()
@@ -83,49 +88,67 @@ void loop()
     //     pwm.setPWM(1, 0, input.toInt());
     // }
 
+    // Serial.println("0");
     // pwm.setPWM(0, 0, SERVOMIN);
     // pwm.setPWM(1, 0, SERVOMIN);
 
-    // delay(1000);
+    // pwm.setPWM(4, 0, SERVOMIN);
+    // pwm.setPWM(5, 0, SERVOMIN);
 
+    // delay(4000);
+
+    // Serial.println("1");
     // pwm.setPWM(0, 0, SERVOMAX);
     // pwm.setPWM(1, 0, SERVOMAX);
 
+    // pwm.setPWM(4, 0, SERVOMAX);
+    // pwm.setPWM(5, 0, SERVOMAX);
+
+    // delay(4000);
+
+    // // Drive each servo one at a time using setPWM()
+    // Serial.println(servonum);
+    // for (uint16_t pulselen = SERVOMIN; pulselen < SERVOMAX; pulselen++)
+    // {
+    //     pwm.setPWM(servonum, 0, pulselen);
+    // }
+
     // delay(1000);
+    // for (uint16_t pulselen = SERVOMAX; pulselen > SERVOMIN; pulselen--)
+    // {
+    //     pwm.setPWM(servonum, 0, pulselen);
+    // }
 
-    // Drive each servo one at a time using setPWM()
-    Serial.println(servonum);
-    for (uint16_t pulselen = SERVOMIN; pulselen < SERVOMAX; pulselen++)
-    {
-        pwm.setPWM(servonum, 0, pulselen);
-    }
+    // delay(3000);
 
-    delay(1000);
-    for (uint16_t pulselen = SERVOMAX; pulselen > SERVOMIN; pulselen--)
-    {
-        pwm.setPWM(servonum, 0, pulselen);
-    }
+    // servonum++;
+    // if (servonum > servocount)
+    //     servonum = 0;
 
-    delay(1000);
+    // Serial.println("Again");
+    // for (uint16_t pulselen = SERVOMIN; pulselen < SERVOMAX; pulselen++)
+    // {
+    //     pwm.setPWM(0, 0, pulselen);
+    //     pwm.setPWM(1, 0, pulselen);
+    //     pwm.setPWM(2, 0, pulselen);
+    //     pwm.setPWM(3, 0, pulselen);
+    // }
+
+    // delay(1000);
+    // for (uint16_t pulselen = SERVOMAX; pulselen > SERVOMIN; pulselen--)
+    // {
+    //     pwm.setPWM(0, 0, pulselen);
+    //     pwm.setPWM(1, 0, pulselen);
+    //     pwm.setPWM(2, 0, pulselen);
+    //     pwm.setPWM(3, 0, pulselen);
+    // }
+
+    // delay(3000);
 }
 
-// You can use this function if you'd like to set the pulse length in seconds
-// e.g. setServoPulse(0, 0.001) is a ~1 millisecond pulse width. It's not precise!
-void setServoPulse(uint8_t n, double pulse)
+int interpolateDegrees(int degrees, int range)
 {
-    double pulselength;
-
-    pulselength = 1000000;     // 1,000,000 us per second
-    pulselength /= SERVO_FREQ; // Analog servos run at ~60 Hz updates
-    Serial.print(pulselength);
-    Serial.println(" us per period");
-    pulselength /= 4096; // 12 bits of resolution
-    Serial.print(pulselength);
-    Serial.println(" us per bit");
-    pulse *= 1000000; // convert input seconds to us
-    pulse /= pulselength;
-    Serial.println(pulse);
-    pwm.setPWM(n, 0, pulse);
+    return map(degrees, -(range / 2), range / 2, SERVOMIN, SERVOMAX);
 }
 
 // #include <Arduino.h>
