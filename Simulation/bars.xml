@@ -1,31 +1,73 @@
 <mujoco model="bars">
-  <compiler autolimits="true"/>
+  <compiler angle="degree" coordinate="local" inertiafromgeom="true" meshdir="models/" />
 
   <visual>
-    <headlight ambient="0 0 0" diffuse="0 0 0" specular="1 1 1"/>
-    <quality shadowsize="8192"/>
+    <headlight ambient="0 0 0" diffuse="0 0 0" specular="1 1 1" />
+    <quality shadowsize="8192" />
   </visual>
 
-  <asset>
-    <mesh file="models/bars.obj" scale="1 1 1" inertia="shell"/>
-    <material name="floor" reflectance=".1"/>
-  </asset>
-
   <default>
-    <default class="collision">
-      <geom type="box" group="3"/>
-      <default class="bars">
-        <geom size="0.0026 0.00704 0.033"/>
-      </default>
-    </default>
+    <geom type="mesh" xyaxes="1 0 0 0 0 1" />
   </default>
 
+  <asset>
+    <mesh name="Pelvis" file="Pelvis.stl" scale="0.001 0.001 0.001" />
+    <mesh name="LeftThigh" file="LeftThigh.stl" scale="0.001 0.001 0.001" />
+    <mesh name="LeftCalf" file="LeftCalf.stl" scale="0.001 0.001 0.001" />
+    <mesh name="LeftFoot" file="LeftFoot.stl" scale="0.001 0.001 0.001" />
+    <mesh name="LeftRollHip" file="LeftRollHip.stl" scale="0.001 0.001 0.001" />
+    <mesh name="LeftYawHip" file="LeftYawHip.stl" scale="0.001 0.001 0.001" />
+    <mesh name="RightThigh" file="RightThigh.stl" scale="0.001 0.001 0.001" />
+    <mesh name="RightCalf" file="RightCalf.stl" scale="0.001 0.001 0.001" />
+    <mesh name="RightFoot" file="RightFoot.stl" scale="0.001 0.001 0.001" />
+    <mesh name="RightRollHip" file="RightRollHip.stl" scale="0.001 0.001 0.001" />
+    <mesh name="RightYawHip" file="RightYawHip.stl" scale="0.001 0.001 0.001" />
+
+    <material name="floor" reflectance=".1" />
+  </asset>
+
   <worldbody>
-    <light pos=".4 -.4 .3" dir="-2 2 -1.5" diffuse=".6 .6 .6"/>
-    <light pos="-.2 -.4 .3" dir="1 2 -1.5" diffuse=".6 .6 .6"/>
-    <geom type="plane" size="5 5 .01" rgba="1 1 1 1" material="floor"/>
-    <body name="bars">
-      <geom class="bars" pos="0.0418 0 0.038" euler="0 0 0"/>
+    <light pos=".4 -.4 .3" dir="-2 2 -1.5" diffuse=".6 .6 .6" />
+    <light pos="-.2 -.4 .3" dir="1 2 -1.5" diffuse=".6 .6 .6" />
+
+    <body name="Pelvis">
+      <geom mesh="Pelvis" axisangle="1 0 0 0" />
+      <body name="LeftRollHip">
+        <geom mesh="LeftRollHip" />
+        <body name="LeftYawHip">
+          <geom mesh="LeftYawHip" />
+          <body name="LeftThigh">
+            <joint name="left_hip" type="ball" axis="0 0 1" />
+            <geom mesh="LeftThigh" />
+            <body name="LeftCalf">
+              <joint name="left_knee" type="hinge" axis="0 1 0" pos="0 0 -0.1" />
+              <geom mesh="LeftCalf" />
+              <body name="LeftFoot">
+                <joint name="left_ankle" type="hinge" axis="1 0 0" pos="0 0 -0.1" />
+                <geom mesh="LeftFoot" />
+              </body>
+            </body>
+          </body>
+        </body>
+      </body>
+      <body name="RightRollHip">
+        <geom mesh="RightRollHip" />
+        <body name="RightYawHip">
+          <geom mesh="RightYawHip" />
+          <body name="RightThigh">
+            <joint name="right_hip" type="ball" axis="0 0 1" />
+            <geom mesh="RightThigh" />
+            <body name="RightCalf">
+              <joint name="right_knee" type="hinge" axis="0 1 0" pos="0 0 -0.1" />
+              <geom mesh="RightCalf" />
+              <body name="RightFoot">
+                <joint name="right_ankle" type="hinge" axis="-1 0 0" pos="0 0 -0.1" />
+                <geom mesh="RightFoot" />
+              </body>
+            </body>
+          </body>
+        </body>
+      </body>
     </body>
   </worldbody>
 </mujoco>
