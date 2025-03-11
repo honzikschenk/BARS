@@ -2,7 +2,7 @@
   <compiler angle="degree" coordinate="local" inertiafromgeom="true" meshdir="models/" />
 
   <visual>
-    <headlight ambient="0 0 0" diffuse="0 0 0" specular="1 1 1" />
+    <headlight ambient=".7 .7 .7" diffuse="0.3 0.3 0.3" specular=".8 .8 .8" />
     <quality shadowsize="8192" />
   </visual>
 
@@ -27,9 +27,9 @@
   </asset>
 
   <worldbody>
-    <light pos=".4 -.4 .3" dir="-2 2 -1.5" diffuse=".6 .6 .6" />
+    <!-- <light pos=".4 -.4 .3" dir="-2 2 -1.5" diffuse=".6 .6 .6" />
     <light pos="-.2 -.4 .3" dir="1 2 -1.5" diffuse=".6 .6 .6" />
-    <light pos="-.2 -.4 .3" dir="-1 -2 -1.5" diffuse=".6 .6 .6" />
+    <light pos="-.2 -.4 -1" dir="-1 -2 -1.5" diffuse=".6 .6 .6" /> -->
 
     <body name="Pelvis" axisangle="1 0 0 270" >
       <geom mesh="Pelvis"/>
@@ -38,12 +38,12 @@
         <body name="LeftYawHip">
           <geom mesh="LeftYawHip" />
           <body name="LeftThigh">
-            <!-- <joint name="left_hip" type="ball" axis="0 0 1" /> -->
+            <!-- <joint name="left_hip" type="hinge" axis="0 1 0" /> -->
             <geom mesh="LeftThigh" />
             <body name="LeftCalf">
               <!-- <joint name="left_knee" type="hinge" axis="0 1 0" pos="0 0 -0.1" /> -->
               <geom mesh="LeftCalf" />
-              <body name="LeftFoot">
+              <body name="LeftFoot" pos="0.092 0.5067 -0.0528" axisangle="0 1 0 90">
                 <!-- <joint name="left_ankle" type="hinge" axis="1 0 0" pos="0 0 -0.1" /> -->
                 <geom mesh="LeftFoot" />
               </body>
@@ -56,12 +56,12 @@
         <body name="RightYawHip">
           <geom mesh="RightYawHip" />
           <body name="RightThigh">
-            <!-- <joint name="right_hip" type="ball" axis="0 0 1" /> -->
+            <!-- <joint name="right_hip" type="hinge" axis="0 1 0" /> -->
             <geom mesh="RightThigh" />
             <body name="RightCalf">
               <!-- <joint name="right_knee" type="hinge" axis="0 1 0" pos="0 0 -0.1" /> -->
               <geom mesh="RightCalf" />
-              <body name="RightFoot">
+              <body name="RightFoot" pos="-0.0575 0.5067 -0.0528" axisangle="0 1 0 90">
                 <!-- <joint name="right_ankle" type="hinge" axis="-1 0 0" pos="0 0 -0.1" /> -->
                 <geom mesh="RightFoot" />
               </body>
