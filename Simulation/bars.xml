@@ -29,21 +29,22 @@
   <worldbody>
     <light pos=".4 -.4 .3" dir="-2 2 -1.5" diffuse=".6 .6 .6" />
     <light pos="-.2 -.4 .3" dir="1 2 -1.5" diffuse=".6 .6 .6" />
+    <light pos="-.2 -.4 .3" dir="-1 -2 -1.5" diffuse=".6 .6 .6" />
 
-    <body name="Pelvis">
-      <geom mesh="Pelvis" axisangle="1 0 0 0" />
+    <body name="Pelvis" axisangle="1 0 0 270" >
+      <geom mesh="Pelvis"/>
       <body name="LeftRollHip">
         <geom mesh="LeftRollHip" />
         <body name="LeftYawHip">
           <geom mesh="LeftYawHip" />
           <body name="LeftThigh">
-            <joint name="left_hip" type="ball" axis="0 0 1" />
+            <!-- <joint name="left_hip" type="ball" axis="0 0 1" /> -->
             <geom mesh="LeftThigh" />
             <body name="LeftCalf">
-              <joint name="left_knee" type="hinge" axis="0 1 0" pos="0 0 -0.1" />
+              <!-- <joint name="left_knee" type="hinge" axis="0 1 0" pos="0 0 -0.1" /> -->
               <geom mesh="LeftCalf" />
               <body name="LeftFoot">
-                <joint name="left_ankle" type="hinge" axis="1 0 0" pos="0 0 -0.1" />
+                <!-- <joint name="left_ankle" type="hinge" axis="1 0 0" pos="0 0 -0.1" /> -->
                 <geom mesh="LeftFoot" />
               </body>
             </body>
@@ -55,13 +56,13 @@
         <body name="RightYawHip">
           <geom mesh="RightYawHip" />
           <body name="RightThigh">
-            <joint name="right_hip" type="ball" axis="0 0 1" />
+            <!-- <joint name="right_hip" type="ball" axis="0 0 1" /> -->
             <geom mesh="RightThigh" />
             <body name="RightCalf">
-              <joint name="right_knee" type="hinge" axis="0 1 0" pos="0 0 -0.1" />
+              <!-- <joint name="right_knee" type="hinge" axis="0 1 0" pos="0 0 -0.1" /> -->
               <geom mesh="RightCalf" />
               <body name="RightFoot">
-                <joint name="right_ankle" type="hinge" axis="-1 0 0" pos="0 0 -0.1" />
+                <!-- <joint name="right_ankle" type="hinge" axis="-1 0 0" pos="0 0 -0.1" /> -->
                 <geom mesh="RightFoot" />
               </body>
             </body>
