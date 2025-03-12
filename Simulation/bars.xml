@@ -23,7 +23,8 @@
     <mesh name="RightRollHip" file="RightRollHip.stl" scale="0.001 0.001 0.001" />
     <mesh name="RightYawHip" file="RightYawHip.stl" scale="0.001 0.001 0.001" />
 
-    <material name="floor" reflectance=".1" />
+    <texture name="grid" type="2d" builtin="checker" width="512" height="512" rgb1=".1 .2 .3" rgb2=".2 .3 .4"/>
+    <material name="grid" texture="grid" texrepeat="1 1" texuniform="true" reflectance=".2"/>
   </asset>
 
   <worldbody>
@@ -31,9 +32,9 @@
     <light pos="-.2 -.4 .3" dir="1 2 -1.5" diffuse=".6 .6 .6" />
     <light pos="-.2 -.4 -1" dir="-1 -2 -1.5" diffuse=".6 .6 .6" /> -->
 
-    <!-- <geom name="floor" type="plane" pos="0 1 0" size="10 10 0.1" axisangle="1 0 0 270" material="floor" /> -->
+    <!-- <geom type="plane" size="3 3 .01" material="grid"/> -->
 
-    <body name="Pelvis" axisangle="1 0 0 270">
+    <body name="Pelvis" axisangle="1 0 0 270" pos="0 0 0">
       <geom mesh="Pelvis" />
       <body name="LeftRollHip">
         <joint name="left_pitch_hip" type="hinge" axis="1 0 0" pos="0 0.051 -0.015" />
@@ -79,27 +80,27 @@
   </worldbody>
 
   <actuator>
-    <position name="left_ankle" joint="left_ankle" ctrllimited="true" ctrlrange="-1 1" kp="1"
+    <position name="left_ankle" joint="left_ankle" ctrllimited="true" ctrlrange="-1.5708 1.5708" kp="1"
       kv="0.1" />
-    <position name="left_knee" joint="left_knee" ctrllimited="true" ctrlrange="-1 1" kp="1" kv="0.1" />
-    <position name="left_yaw_hip" joint="left_yaw_hip" ctrllimited="true" ctrlrange="-1 1" kp="1"
+    <position name="left_knee" joint="left_knee" ctrllimited="true" ctrlrange="-1.5708 1.5708" kp="1" kv="0.1" />
+    <position name="left_yaw_hip" joint="left_yaw_hip" ctrllimited="true" ctrlrange="-1.5708 1.5708" kp="1"
       kv="0.1" />
-    <position name="left_roll_hip" joint="left_roll_hip" ctrllimited="true" ctrlrange="-1 1" kp="1"
+    <position name="left_roll_hip" joint="left_roll_hip" ctrllimited="true" ctrlrange="-1.5708 1.5708" kp="1"
       kv="0.1" />
-    <position name="left_pitch_hip" joint="left_pitch_hip" ctrllimited="true" ctrlrange="-1 1"
+    <position name="left_pitch_hip" joint="left_pitch_hip" ctrllimited="true" ctrlrange="-1.5708 1.5708"
       kp="1"
       kv="0.1" />
 
-    <position name="right_ankle" joint="right_ankle" ctrllimited="true" ctrlrange="-1 1" kp="1"
+    <position name="right_ankle" joint="right_ankle" ctrllimited="true" ctrlrange="-1.5708 1.5708" kp="1"
       kv="0.1" />
-    <position name="right_knee" joint="right_knee" ctrllimited="true" ctrlrange="-1 1" kp="1"
+    <position name="right_knee" joint="right_knee" ctrllimited="true" ctrlrange="-1.5708 1.5708" kp="1"
       kv="0.1" />
-    <position name="right_yaw_hip" joint="right_yaw_hip" ctrllimited="true" ctrlrange="-1 1" kp="1"
+    <position name="right_yaw_hip" joint="right_yaw_hip" ctrllimited="true" ctrlrange="-1.5708 1.5708" kp="1"
       kv="0.1" />
-    <position name="right_roll_hip" joint="right_roll_hip" ctrllimited="true" ctrlrange="-1 1"
+    <position name="right_roll_hip" joint="right_roll_hip" ctrllimited="true" ctrlrange="-1.5708 1.5708"
       kp="1"
       kv="0.1" />
-    <position name="right_pitch_hip" joint="right_pitch_hip" ctrllimited="true" ctrlrange="-1 1"
+    <position name="right_pitch_hip" joint="right_pitch_hip" ctrllimited="true" ctrlrange="-1.5708 1.5708"
       kp="1"
       kv="0.1" />
   </actuator>
