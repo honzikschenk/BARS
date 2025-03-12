@@ -28,13 +28,10 @@
   </asset>
 
   <worldbody>
-    <!-- <light pos=".4 -.4 .3" dir="-2 2 -1.5" diffuse=".6 .6 .6" />
-    <light pos="-.2 -.4 .3" dir="1 2 -1.5" diffuse=".6 .6 .6" />
-    <light pos="-.2 -.4 -1" dir="-1 -2 -1.5" diffuse=".6 .6 .6" /> -->
+    <geom name="Floor" type="plane" size="3 3 .001" axisangle="1 0 0 0" material="grid"/>
 
-    <!-- <geom type="plane" size="3 3 .01" material="grid"/> -->
-
-    <body name="Pelvis" axisangle="1 0 0 270" pos="0 0 0">
+    <body name="Pelvis" axisangle="1 0 0 270" pos="0 0 0.8">
+      <freejoint />
       <geom mesh="Pelvis" />
       <body name="LeftRollHip">
         <joint name="left_pitch_hip" type="hinge" axis="1 0 0" pos="0 0.051 -0.015" />
@@ -106,12 +103,14 @@
   </actuator>
 
   <contact>
+    <!-- <exclude body1="Floor" body2="LeftFoot" /> -->
     <exclude body1="LeftFoot" body2="LeftCalf" />
     <exclude body1="LeftCalf" body2="LeftThigh" />
     <exclude body1="LeftThigh" body2="LeftYawHip" />
     <exclude body1="LeftYawHip" body2="LeftRollHip" />
     <exclude body1="LeftRollHip" body2="Pelvis" />
 
+    <!-- <exclude body1="Floor" body2="RightFoot" /> -->
     <exclude body1="RightFoot" body2="RightCalf" />
     <exclude body1="RightCalf" body2="RightThigh" />
     <exclude body1="RightThigh" body2="RightYawHip" />
