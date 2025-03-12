@@ -1,6 +1,7 @@
 # Run mjpython main.py
 
 import time
+import json
 
 import mujoco
 import mujoco.viewer
@@ -11,6 +12,17 @@ d = mujoco.MjData(m)
 with mujoco.viewer.launch_passive(m, d) as viewer:
   # Close the viewer automatically after 30 wall-seconds.
   start = time.time()
+
+  # Set a joint to a specific position
+  # Load default positions from a JSON file
+  with open('default_positions.json', 'r') as f:
+    default_positions = json.load(f)
+
+  # Set joints to their default positions
+  for joint_name, desired_position in default_positions.items():
+    joint_qpos_addr = mujoco.mj_name2id(m, mujoco.mjtObj.mjOBJ_JOINT, joint_name)
+    d.qpos[joint_qpos_addr] = desired_position
+
   while viewer.is_running() and time.time() - start < 30:
     step_start = time.time()
 
