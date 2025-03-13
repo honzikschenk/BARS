@@ -2,11 +2,11 @@
     "left_pitch_hip": -0.2,
     "left_roll_hip": 0.0,
     "left_yaw_hip": 0.0,
-    "left_knee": 0.6,
-    "left_ankle": 0.3,
+    "left_knee": 0.65,
+    "left_ankle": 0.5,
     "right_pitch_hip": -0.2,
     "right_roll_hip": 0.0,
     "right_yaw_hip": 0.0,
-    "right_knee": 0.6,
-    "right_ankle": 0.3
+    "right_knee": 0.65,
+    "right_ankle": 0.5
   }
