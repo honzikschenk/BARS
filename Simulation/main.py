@@ -4,6 +4,7 @@ import time
 import json
 
 import mujoco
+import threading
 import mujoco.viewer
 
 m = mujoco.MjModel.from_xml_path('./bars.xml')
@@ -45,6 +46,22 @@ def set_joint_positions(model, data, joint_name, desired_position):
     # data.ctrl[joint_index] = p_term + i_term + d_term
     # # data.qpos[joint_qpos_addr] = desired_position
 
+def user_input_handler():
+  global default_positions
+  while True:
+    user_input = input("Enter joint name and desired position (e.g., 'joint1 0.5') or 'exit': ")
+    if user_input.lower() == 'exit':
+      break
+    try:
+      joint_name, desired_position = user_input.split()
+      desired_position = float(desired_position)
+      if joint_name in default_positions:
+        default_positions[joint_name] = desired_position
+      else:
+        print(f"Joint '{joint_name}' not found.")
+    except ValueError:
+      print("Invalid input. Please enter in the format 'joint_name position'.")
+
 with mujoco.viewer.launch_passive(m, data) as viewer:
   # Close the viewer automatically after 30 wall-seconds.
   start = time.time()
@@ -58,18 +75,22 @@ with mujoco.viewer.launch_passive(m, data) as viewer:
   for joint_name, desired_position in default_positions.items():
     set_joint_positions(m, data, joint_name, desired_position)
 
+  # Start the user input handler in a separate thread
+  input_thread = threading.Thread(target=user_input_handler, daemon=True)
+  input_thread.start()
+
+  # Example modification of a viewer option: toggle contact points every two seconds.
+  with viewer.lock():
+    viewer.opt.flags[mujoco.mjtVisFlag.mjVIS_CONTACTPOINT] = int(data.time % 2)
+    viewer.opt.flags[mujoco.mjtVisFlag.mjVIS_CONTACTPOINT] = 0
+    viewer.opt.flags[mujoco.mjtVisFlag.mjVIS_CONTACTFORCE] = 0
+
   while viewer.is_running() and time.time() - start < 30:
     step_start = time.time()
 
     # mj_step can be replaced with code that also evaluates
     # a policy and applies a control signal before stepping the physics.
     mujoco.mj_step(m, data)
-
-    # Example modification of a viewer option: toggle contact points every two seconds.
-    with viewer.lock():
-      viewer.opt.flags[mujoco.mjtVisFlag.mjVIS_CONTACTPOINT] = int(data.time % 2)
-      viewer.opt.flags[mujoco.mjtVisFlag.mjVIS_CONTACTPOINT] = 0
-      viewer.opt.flags[mujoco.mjtVisFlag.mjVIS_CONTACTFORCE] = 0
 
     # Pick up changes to the physics state, apply perturbations, update options from GUI.
     viewer.sync()
@@ -79,5 +100,5 @@ with mujoco.viewer.launch_passive(m, data) as viewer:
     if time_until_next_step > 0:
       time.sleep(time_until_next_step)
 
-    # for joint_name, desired_position in default_positions.items():
-    #   set_joint_positions(m, data, joint_name, desired_position)
+    for joint_name, desired_position in default_positions.items():
+      set_joint_positions(m, data, joint_name, desired_position)
