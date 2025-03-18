@@ -10,10 +10,6 @@ import mujoco.viewer
 m = mujoco.MjModel.from_xml_path('./bars.xml')
 data = mujoco.MjData(m)
 
-p = 1
-i = 0
-d = 0
-
 def set_joint_positions(model, data, joint_name, desired_position):
     """
     Set the position of a joint in the Mujoco model with PID.
@@ -75,9 +71,6 @@ def user_input_handler():
     #   print("Invalid input. Please enter a float between 0 and 1.")
 
 with mujoco.viewer.launch_passive(m, data) as viewer:
-  # Close the viewer automatically after 30 wall-seconds.
-  start = time.time()
-
   # Set a joint to a specific position
   # Load default positions from a JSON file
   with open('default_positions.json', 'r') as f:
@@ -97,7 +90,7 @@ with mujoco.viewer.launch_passive(m, data) as viewer:
     viewer.opt.flags[mujoco.mjtVisFlag.mjVIS_CONTACTPOINT] = 0
     viewer.opt.flags[mujoco.mjtVisFlag.mjVIS_CONTACTFORCE] = 0
 
-  while viewer.is_running() and time.time() - start < 30:
+  while viewer.is_running():
     step_start = time.time()
 
     # mj_step can be replaced with code that also evaluates
