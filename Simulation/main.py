@@ -68,6 +68,8 @@ with mujoco.viewer.launch_passive(m, data) as viewer:
     # Example modification of a viewer option: toggle contact points every two seconds.
     with viewer.lock():
       viewer.opt.flags[mujoco.mjtVisFlag.mjVIS_CONTACTPOINT] = int(data.time % 2)
+      viewer.opt.flags[mujoco.mjtVisFlag.mjVIS_CONTACTPOINT] = 0
+      viewer.opt.flags[mujoco.mjtVisFlag.mjVIS_CONTACTFORCE] = 0
 
     # Pick up changes to the physics state, apply perturbations, update options from GUI.
     viewer.sync()
