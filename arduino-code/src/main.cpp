@@ -80,13 +80,13 @@ void setup()
 
 void loop()
 {
-    // while (Serial.available())
-    // {
-    //     input = Serial.readString();
+    while (Serial.available())
+    {
+        input = Serial.readString();
 
-    //     pwm.setPWM(0, 0, input.toInt());
-    //     pwm.setPWM(1, 0, input.toInt());
-    // }
+        // pwm.setPWM(0, 0, interpolateDegrees(input.toInt(), 270));
+        pwm.setPWM(0, 0, input.toInt());
+    }
 
     // Serial.println("0");
     // pwm.setPWM(0, 0, SERVOMIN);
