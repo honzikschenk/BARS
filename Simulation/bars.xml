@@ -1,5 +1,6 @@
 <mujoco model="bars">
   <compiler angle="degree" coordinate="local" inertiafromgeom="true" meshdir="models/" />
+  <option gravity="0 0 -9.81" timestep="0.002" iterations="100" tolerance="1e-8" />
 
   <visual>
     <headlight ambient=".7 .7 .7" diffuse="0.3 0.3 0.3" specular=".8 .8 .8" />
@@ -80,13 +81,13 @@
 
   <actuator>
     <position name="left_ankle" joint="left_ankle" ctrllimited="true" ctrlrange="-1.5708 1.5708" kp="10" kv="0.1" />
-    <position name="left_knee" joint="left_knee" ctrllimited="true" ctrlrange="-1.5708 1.5708" kp="5" kv="0.1" />
+    <position name="left_knee" joint="left_knee" ctrllimited="true" ctrlrange="-1.5708 1.5708" kp="10" kv="0.1" />
     <position name="left_yaw_hip" joint="left_yaw_hip" ctrllimited="true" ctrlrange="-1.5708 1.5708" kp="5" kv="0.1" />
     <position name="left_roll_hip" joint="left_roll_hip" ctrllimited="true" ctrlrange="-1.5708 1.5708" kp="5" kv="0.1" />
     <position name="left_pitch_hip" joint="left_pitch_hip" ctrllimited="true" ctrlrange="-1.5708 1.5708" kp="5" kv="0.1" />
 
     <position name="right_ankle" joint="right_ankle" ctrllimited="true" ctrlrange="-1.5708 1.5708" kp="10" kv="0.1" />
-    <position name="right_knee" joint="right_knee" ctrllimited="true" ctrlrange="-1.5708 1.5708" kp="5" kv="0.1" />
+    <position name="right_knee" joint="right_knee" ctrllimited="true" ctrlrange="-1.5708 1.5708" kp="10" kv="0.1" />
     <position name="right_yaw_hip" joint="right_yaw_hip" ctrllimited="true" ctrlrange="-1.5708 1.5708" kp="5" kv="0.1" />
     <position name="right_roll_hip" joint="right_roll_hip" ctrllimited="true" ctrlrange="-1.5708 1.5708" kp="5" kv="0.1" />
     <position name="right_pitch_hip" joint="right_pitch_hip" ctrllimited="true" ctrlrange="-1.5708 1.5708" kp="5" kv="0.1" />

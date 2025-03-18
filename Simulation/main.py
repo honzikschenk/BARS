@@ -49,18 +49,24 @@ def set_joint_positions(model, data, joint_name, desired_position):
 def user_input_handler():
   global default_positions
   while True:
-    user_input = input("Enter joint name and desired position (e.g., 'joint1 0.5') or 'exit': ")
+    user_input = input("Enter a value between 0 (standing) and 1 (crouching), or 'exit': ")
     if user_input.lower() == 'exit':
       break
     try:
-      joint_name, desired_position = user_input.split()
-      desired_position = float(desired_position)
-      if joint_name in default_positions:
-        default_positions[joint_name] = desired_position
+      crouch_value = float(user_input)
+      if 0 <= crouch_value <= 1:
+        # Map the crouch value to joint positions
+        default_positions['left_ankle'] = 0.5 * crouch_value + 0.2
+        default_positions['left_knee'] = 1.0 * crouch_value + 0.1
+        default_positions['left_pitch_hip'] = -0.5 * crouch_value - 0.2
+
+        default_positions['right_ankle'] = 0.5 * crouch_value + 0.2
+        default_positions['right_knee'] = 1.0 * crouch_value + 0.1
+        default_positions['right_pitch_hip'] = -0.5 * crouch_value - 0.2
       else:
-        print(f"Joint '{joint_name}' not found.")
+        print("Value out of range. Please enter a value between 0 and 1.")
     except ValueError:
-      print("Invalid input. Please enter in the format 'joint_name position'.")
+      print("Invalid input. Please enter a float between 0 and 1.")
 
 with mujoco.viewer.launch_passive(m, data) as viewer:
   # Close the viewer automatically after 30 wall-seconds.
