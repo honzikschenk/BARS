@@ -25,48 +25,54 @@ def set_joint_positions(model, data, joint_name, desired_position):
         desired_position: The desired position for the joint.
     """
     # Get the joint index from the model
-    # joint_index = mujoco.mj_name2id(model, mujoco.mjtObj.mjOBJ_JOINT, joint_name)
     joint_index = model.actuator(joint_name).id
 
     data.ctrl[joint_index] = desired_position
-    
-    # # Get the current position of the joint
-    # current_position = data.qpos[joint_index]
-    
-    # # Calculate the error
-    # error = desired_position - current_position
-    
-    # # PID control (simplified)
-    # global p, i, d
-    # p_term = p * error
-    # i_term = i * (error + data.qvel[joint_index])
-    # d_term = d * (error - data.qvel[joint_index])
-    
-    # # Set the control signal for the joint
-    # data.ctrl[joint_index] = p_term + i_term + d_term
-    # # data.qpos[joint_qpos_addr] = desired_position
 
 def user_input_handler():
   global default_positions
-  while True:
-    user_input = input("Enter a value between 0 (standing) and 1 (crouching), or 'exit': ")
-    if user_input.lower() == 'exit':
-      break
-    try:
-      crouch_value = float(user_input)
-      if 0 <= crouch_value <= 1:
-        # Map the crouch value to joint positions
-        default_positions['left_ankle'] = 0.5 * crouch_value + 0.2
-        default_positions['left_knee'] = 1.0 * crouch_value + 0.1
-        default_positions['left_pitch_hip'] = -0.5 * crouch_value - 0.2
 
-        default_positions['right_ankle'] = 0.5 * crouch_value + 0.2
-        default_positions['right_knee'] = 1.0 * crouch_value + 0.1
-        default_positions['right_pitch_hip'] = -0.5 * crouch_value - 0.2
-      else:
-        print("Value out of range. Please enter a value between 0 and 1.")
-    except ValueError:
-      print("Invalid input. Please enter a float between 0 and 1.")
+  crouch_value = 0
+  going_up = False
+  while True:
+    if(going_up):
+      crouch_value -= 0.1
+      if(crouch_value <= 0):
+        going_up = False
+    else:
+      crouch_value += 0.1
+      if(crouch_value >= 1.5):
+        going_up = True
+
+    # Set the position of the left and right ankle, knee, and hip joints
+    default_positions['left_ankle'] = {True: 0.5, False: 0.5}[crouch_value <= 1] * crouch_value + 0.2
+    default_positions['left_knee'] = {True: 1.0, False: 1.0}[crouch_value <= 1] * crouch_value + 0.1
+    default_positions['left_pitch_hip'] = -0.5 * crouch_value - 0.2
+
+    default_positions['right_ankle'] = {True: 0.5, False: 0.5}[crouch_value <= 1] * crouch_value + 0.2
+    default_positions['right_knee'] = {True: 1.0, False: 1.0}[crouch_value <= 1] * crouch_value + 0.1
+    default_positions['right_pitch_hip'] = -0.5 * crouch_value - 0.2
+
+    time.sleep(0.1)
+    
+    # user_input = input("Enter a value between 0 (standing) and 1 (crouching), or 'exit': ")
+    # if user_input.lower() == 'exit':
+    #   break
+    # try:
+    #   crouch_value = float(user_input)
+    #   if 0 <= crouch_value <= 2:
+    #     # Map the crouch value to joint positions
+    #     default_positions['left_ankle'] = {True: 0.5, False: 0.5}[crouch_value <= 1] * crouch_value + 0.2
+    #     default_positions['left_knee'] = {True: 1.0, False: 1.0}[crouch_value <= 1] * crouch_value + 0.1
+    #     default_positions['left_pitch_hip'] = -0.5 * crouch_value - 0.2
+
+    #     default_positions['right_ankle'] = {True: 0.5, False: 0.5}[crouch_value <= 1] * crouch_value + 0.2
+    #     default_positions['right_knee'] = {True: 1.0, False: 1.0}[crouch_value <= 1] * crouch_value + 0.1
+    #     default_positions['right_pitch_hip'] = -0.5 * crouch_value - 0.2
+    #   else:
+    #     print("Value out of range. Please enter a value between 0 and 1.")
+    # except ValueError:
+    #   print("Invalid input. Please enter a float between 0 and 1.")
 
 with mujoco.viewer.launch_passive(m, data) as viewer:
   # Close the viewer automatically after 30 wall-seconds.
