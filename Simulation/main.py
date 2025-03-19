@@ -11,7 +11,7 @@ data = mujoco.MjData(m)
 
 def set_joint_position(model, data, joint_name, desired_position):
     """
-    Set the position of a joint in the Mujoco model with PID.
+    Set the position of a joint in the Mujoco model with internal PID controller.
     
     Args:
         model: The Mujoco model.
@@ -23,6 +23,41 @@ def set_joint_position(model, data, joint_name, desired_position):
     joint_index = model.actuator(joint_name).id
 
     data.ctrl[joint_index] = desired_position
+
+def get_joint_position(model, data, joint_name):
+    """
+    Get the current position of a joint in the Mujoco model.
+    
+    Args:
+        model: The Mujoco model.
+        data: The Mujoco data.
+        joint_name: The name of the joint to get.
+    
+    Returns:
+        The current position of the joint.
+    """
+    # Get the joint index from the model
+    joint_index = model.joint(joint_name).id
+
+    return data.qpos[joint_index]
+
+def get_body_position_global(model, data, body_name):
+    """
+    Get the global position of a body in the Mujoco model.
+    Note: The y-axis is flipped (forward is negative y).
+    
+    Args:
+        model: The Mujoco model.
+        data: The Mujoco data.
+        body_name: The name of the body to get.
+    
+    Returns:
+        The global position of the body.
+    """
+    # Get the body index from the model
+    body_index = model.body(body_name).id
+
+    return data.xpos[body_index]
 
 
 
@@ -40,32 +75,26 @@ with mujoco.viewer.launch_passive(m, data) as viewer:
     viewer.opt.flags[mujoco.mjtVisFlag.mjVIS_CONTACTPOINT] = 0
     viewer.opt.flags[mujoco.mjtVisFlag.mjVIS_CONTACTFORCE] = 0
 
-  crouch_value = 0
-  going_up = False
   time_since_last_step = time.time()
 
   while viewer.is_running():
     step_start = time.time()
 
+    # Add any slower periodic tasks here
     if(time.time() - time_since_last_step > 0.1):
       time_since_last_step = time.time()
-      if(going_up):
-        crouch_value -= 0.1
-        if(crouch_value <= 0):
-          going_up = False
-      else:
-        crouch_value += 0.1
-        if(crouch_value >= 1.5):
-          going_up = True
 
-      # Set the position of the left and right ankle, knee, and hip joints
-      set_joint_position(m, data, 'left_ankle', {True: 0.5, False: 0.5}[crouch_value <= 1] * crouch_value + 0.2)
-      set_joint_position(m, data, 'left_knee', {True: 1.0, False: 1.0}[crouch_value <= 1] * crouch_value + 0.1)
-      set_joint_position(m, data, 'left_pitch_hip', -0.5 * crouch_value - 0.2)
+      print(get_body_position_global(m, data, 'Pelvis'))
 
-      set_joint_position(m, data, 'right_ankle', {True: 0.5, False: 0.5}[crouch_value <= 1] * crouch_value + 0.2)
-      set_joint_position(m, data, 'right_knee', {True: 1.0, False: 1.0}[crouch_value <= 1] * crouch_value + 0.1)
-      set_joint_position(m, data, 'right_pitch_hip', -0.5 * crouch_value - 0.2)
+    # Check for reseting sim if robot has fallen
+    if(get_body_position_global(m, data, 'Pelvis')[2] < 0.3):
+      mujoco.mj_resetData(m, data)
+
+      # Set the joints to their default positions again
+      for joint_name, desired_position in default_positions.items():
+        set_joint_position(m, data, joint_name, desired_position)
+
+    # Add instant control tasks here
 
     # mj_step can be replaced with code that also evaluates
     # a policy and applies a control signal before stepping the physics.
