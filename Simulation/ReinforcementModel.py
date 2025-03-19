@@ -12,6 +12,9 @@ import Utils
 
 import mujoco # type: ignore
 
+# Constants
+MAX_RANGE = 1.5708 # 90 degrees in radians
+
 joint_names = [
     "left_pitch_hip",
     "left_roll_hip",
@@ -130,6 +133,56 @@ def save_policy(policy):
 def return_apply_action(policy):
     return policy
 
+def train_policy(model, data, policy: Policy, reward: float):
+    """
+    Train the policy based on the model and data.
+    
+    Args:
+        model: The Mujoco model.
+        data: The Mujoco data.
+        policy: The policy to train.
+    
+    Returns:
+        The trained policy.
+    """
+    return policy
+
+def reset_policy():
+    """
+    Reset the policy to its initial state.
+    
+    Returns:
+        The reset policy.
+    """
+    # Reset the policy to its initial state
+    # This is a placeholder for actual reset logic
+    # For now, we will just return a new policy with random weights and biases
+    weights = [random.uniform(-MAX_RANGE, MAX_RANGE) for _ in range(len(joint_names))]
+    biases = [random.uniform(-MAX_RANGE, MAX_RANGE) for _ in range(len(joint_names))]
+    return Policy(weights=weights, biases=biases)
+
+def get_action(model, data, policy: Policy):
+    """
+    Get the action based on the policy.
+    
+    Args:
+        model: The Mujoco model.
+        data: The Mujoco data.
+        policy: The policy to use for generating the action.
+    
+    Returns:
+        The generated action.
+    """
+    # Get the joint positions from the policy
+    joint_positions = {}
+
+    for joint_name, weight in zip(joint_names, policy.weights):
+        joint_positions[joint_name] = Utils.get_joint_position(model, data, joint_name) + weight
+
+    action = Action(joint_positions)
+
+    return action
+
 def get_random_action():
     """
     Generate a random action.
@@ -139,7 +192,7 @@ def get_random_action():
     """
     joint_positions = {}
     for joint_name in joint_names:
-        joint_positions[joint_name] = random.uniform(-1, 1)
+        joint_positions[joint_name] = random.uniform(-MAX_RANGE, MAX_RANGE)
 
     action = Action(joint_positions)
     return action
@@ -157,7 +210,7 @@ def apply_action(model, data, action: Action):
     for joint_name, position in action.joint_positions.items():
         Utils.set_joint_position(model, data, joint_name, position)
     
-def get_reward(model, data):
+def get_reward(model, data, time_spent: float):
     """
     Get the reward for the current state of the Mujoco model.
 
@@ -173,6 +226,8 @@ def get_reward(model, data):
     """
     # Get the global position of the pelvis
     pelvis_position = Utils.get_body_position_global(model, data, 'Pelvis')
-    # Calculate the reward based on the y-coordinate of the pelvis position
+
     reward = -pelvis_position[1]
+    reward += time_spent
+    
     return reward

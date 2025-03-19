@@ -27,6 +27,7 @@ with mujoco.viewer.launch_passive(m, data) as viewer:
     viewer.opt.flags[mujoco.mjtVisFlag.mjVIS_CONTACTFORCE] = 0
 
   time_since_last_step = time.time()
+  time_since_start = time.time()
 
   while viewer.is_running():
     step_start = time.time()
@@ -35,10 +36,14 @@ with mujoco.viewer.launch_passive(m, data) as viewer:
     if(time.time() - time_since_last_step > 0.1):
       time_since_last_step = time.time()
 
-      print(Utils.get_body_position_global(m, data, 'Pelvis'))
+      # print(Utils.get_body_position_global(m, data, 'Pelvis'))
 
     # Check for reseting sim if robot has fallen
     if(Utils.get_body_position_global(m, data, 'Pelvis')[2] < 0.3):
+      print(ReinforcementModel.get_reward(m, data, time.time() - time_since_start))
+
+      time_since_start = time.time()
+
       mujoco.mj_resetData(m, data)
 
       # Set the joints to their default positions again
