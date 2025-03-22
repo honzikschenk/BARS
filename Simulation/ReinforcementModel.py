@@ -35,10 +35,19 @@ class Policy:
         velocity_weights (List[float]): Velocity for weights (used for momentum).
         velocity_biases (List[float]): Velocity for biases (used for momentum).
     """
+    def __init__(self):
+        """
+        Initialize the policy with weights and biases as zeros.
+        """
+        self.weights = [0.0] * len(joint_names)
+        self.biases = [0.0] * len(joint_names)
+        self.velocity_weights = [0.0] * len(joint_names)
+        self.velocity_biases = [0.0] * len(joint_names)
+
     def __init__(self, weights: List[float], biases: List[float]):
         self.weights = weights
         self.biases = biases
-        self.velocity_weights = [0.0] * len(weights)  # Initialize velocities for momentum
+        self.velocity_weights = [0.0] * len(weights)
         self.velocity_biases = [0.0] * len(biases)
 
     def to_dict(self) -> Dict[str, Any]:

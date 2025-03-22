@@ -12,32 +12,7 @@ import mujoco # type: ignore
 m = mujoco.MjModel.from_xml_path('./bars.xml')
 data = mujoco.MjData(m)
 
-policy = ReinforcementModel.Policy(
-    weights=[
-      0.0,
-      0.0,
-      0.0,
-      0.0,
-      0.0,
-      0.0,
-      0.0,
-      0.0,
-      0.0,
-      0.0,
-    ],
-    biases=[
-        0.0,
-        0.0,
-        0.0,
-        0.0,
-        0.0,
-        0.0,
-        0.0,
-        0.0,
-        0.0,
-        0.0,
-    ]
-)
+policy = ReinforcementModel.Policy()
 
 rewards = []
 
