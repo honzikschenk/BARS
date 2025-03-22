@@ -4,4 +4,4 @@ Simulation/MUJOCO_LOG.TXT
 
 Simulation/rewards.json
 
-
+Simulation/__pycache__
