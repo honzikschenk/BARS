@@ -1,6 +1,7 @@
 <mujoco model="bars">
   <compiler angle="degree" coordinate="local" inertiafromgeom="true" meshdir="models/" />
-  <option gravity="0 0 -9.81" timestep="0.002" iterations="100" tolerance="1e-8" />
+  <option gravity="0 0 -9.81" timestep="0.01" iterations="50" tolerance="1e-8" />
+  <!-- Default timestep is 0.002 and iterations is 100 -->
 
   <visual>
     <headlight ambient=".7 .7 .7" diffuse="0.3 0.3 0.3" specular=".8 .8 .8" />
