@@ -3,7 +3,7 @@
 import time
 import json
 
-import mujoco
+import mujoco # type: ignore
 
 m = mujoco.MjModel.from_xml_path('./bars.xml')
 data = mujoco.MjData(m)
