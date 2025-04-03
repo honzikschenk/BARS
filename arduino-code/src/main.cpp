@@ -31,11 +31,19 @@
 
 Adafruit_PWMServoDriver pwm = Adafruit_PWMServoDriver();
 
-#define SERVOMIN 120  // This is the 'minimum' pulse length count (out of 4096) (20000 / 4096) 102.4 TO 512
-#define SERVOMAX 505  // This is the 'maximum' pulse length count (out of 4096)
+// LeftPitchPelvis (forward swing is positive) is 440 - 177
+// RightPitchPelvis (forward swing is positive) 1 is 186 - 451
+// LeftRollPelvis (left swing is positive) is 186 - 451
+// RightRollPelvis (right swing is positive) is 505 - 120
+// LeftYawPelvis (left turn is positive) is 451 - 186
+// RightYawPelvis (right turn is positive) is 186 - 451
+// 120
+// 505
+#define SERVOMIN 186  // This is the 'minimum' pulse length count (out of 4096) (20000 / 4096) 102.4 TO 512
+#define SERVOMAX 451  // This is the 'maximum' pulse length count (out of 4096)
 #define SERVO_FREQ 50 // Analog servos run at ~50 Hz updates
 
-int interpolateDegrees(int degrees, int range);
+int interpolateDegrees(int degrees);
 
 String input;
 
@@ -70,10 +78,10 @@ void setup()
     pwm.setOscillatorFrequency(27000000);
     pwm.setPWMFreq(SERVO_FREQ);
 
-    pwm.setPWM(0, 0, interpolateDegrees(0, 270));
-    pwm.setPWM(1, 0, interpolateDegrees(0, 270));
-    pwm.setPWM(2, 0, interpolateDegrees(0, 180));
-    pwm.setPWM(3, 0, interpolateDegrees(0, 180));
+    pwm.setPWM(0, 0, interpolateDegrees(0));
+    pwm.setPWM(1, 0, interpolateDegrees(0));
+    // pwm.setPWM(2, 0, interpolateDegrees(0));
+    // pwm.setPWM(3, 0, interpolateDegrees(0));
 
     delay(1000);
 }
@@ -84,8 +92,10 @@ void loop()
     {
         input = Serial.readString();
 
-        // pwm.setPWM(0, 0, interpolateDegrees(input.toInt(), 270));
-        pwm.setPWM(0, 0, input.toInt());
+        pwm.setPWM(0, 0, interpolateDegrees(input.toInt()));
+        pwm.setPWM(1, 0, interpolateDegrees(input.toInt()));
+        // pwm.setPWM(0, 0, input.toInt());
+        // pwm.setPWM(1, 0, input.toInt());
     }
 
     // Serial.println("0");
@@ -146,9 +156,9 @@ void loop()
     // delay(3000);
 }
 
-int interpolateDegrees(int degrees, int range)
+int interpolateDegrees(int degrees)
 {
-    return map(degrees, -(range / 2), range / 2, SERVOMIN, SERVOMAX);
+    return map(degrees, -(180 / 2), 180 / 2, SERVOMIN, SERVOMAX);
 }
 
 // #include <Arduino.h>
