@@ -49,3 +49,16 @@ def get_body_position_global(model, data, body_name):
     body_index = model.body(body_name).id
 
     return data.xpos[body_index]
+
+def move_to_position(model, data, desired_pose, positions):
+    """
+    Move a body to a desired position in the Mujoco model.
+    
+    Args:
+        model: The Mujoco model.
+        data: The Mujoco data.
+        desired_pose: The desired global position for the entire robot.
+    """
+    desired_positions = positions[desired_pose]
+    for joint_name, desired_position in desired_positions.items():
+        set_joint_position(model, data, joint_name, desired_position)

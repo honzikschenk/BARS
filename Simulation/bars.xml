@@ -1,7 +1,6 @@
 <mujoco model="bars">
   <compiler angle="degree" coordinate="local" inertiafromgeom="true" meshdir="models/" />
-  <option gravity="0 0 -9.81" timestep="0.01" iterations="50" tolerance="1e-8" />
-  <!-- Default timestep is 0.002 and iterations is 100 -->
+  <option gravity="0 0 -9.81" timestep="0.005" iterations="100" tolerance="1e-8" />
 
   <visual>
     <headlight ambient=".7 .7 .7" diffuse="0.3 0.3 0.3" specular=".8 .8 .8" />
@@ -9,7 +8,7 @@
   </visual>
 
   <default>
-    <geom type="mesh" xyaxes="1 0 0 0 0 1" solref="0.02 1" solimp="0.9 0.95 0.001" friction="1.0 0.005 0.0001" />
+    <geom type="mesh" xyaxes="1 0 0 0 0 1" solref="0.02 0.5" solimp="0.95 0.99 0.001" friction="2.0 0.01 0.001" />
   </default>
 
   <asset>
@@ -31,47 +30,47 @@
 
   <worldbody>
     <body name="Floor">
-      <geom name="Floor" type="box" size="3 3 0.1" axisangle="1 0 0 0" material="grid" friction="1.0 0.005 0.0001" />
+      <geom name="Floor" type="box" size="3 3 0.1" axisangle="1 0 0 0" material="grid" friction="2.0 0.01 0.001" />
     </body>
 
     <body name="Pelvis" axisangle="1 0 0 270" pos="0 0 0.65">
       <freejoint />
       <geom mesh="Pelvis" />
       <body name="LeftRollHip">
-        <joint name="left_pitch_hip" type="hinge" axis="1 0 0" pos="0 0.051 -0.015" damping="1.0" armature="0.2" stiffness="2.0" />
+        <joint name="left_pitch_hip" type="hinge" axis="1 0 0" pos="0 0.051 -0.015" damping="3.0" armature="0.2" stiffness="5.0" />
         <geom mesh="LeftRollHip" />
         <body name="LeftYawHip">
-          <joint name="left_roll_hip" type="hinge" axis="0 0 1" pos="0.1 0.077 0" damping="1.0" armature="0.2" stiffness="2.0" />
+          <joint name="left_roll_hip" type="hinge" axis="0 0 1" pos="0.1 0.077 0" damping="3.0" armature="0.2" stiffness="5.0" />
           <geom mesh="LeftYawHip" />
           <body name="LeftThigh">
-            <joint name="left_yaw_hip" type="hinge" axis="0 1 0" pos="0.099 0 -0.0669" damping="1.0" armature="0.2" stiffness="2.0" />
+            <joint name="left_yaw_hip" type="hinge" axis="0 1 0" pos="0.099 0 -0.0669" damping="3.0" armature="0.2" stiffness="5.0" />
             <geom mesh="LeftThigh" />
             <body name="LeftCalf">
-              <joint name="left_knee" type="hinge" axis="1 0 0" pos="0 0.3437 -0.0576" damping="1.0" armature="0.2" stiffness="2.0" />
+              <joint name="left_knee" type="hinge" axis="1 0 0" pos="0 0.3437 -0.0576" damping="3.0" armature="0.2" stiffness="5.0" />
               <geom mesh="LeftCalf" />
               <body name="LeftFoot" pos="0.092 0.5067 -0.0528" axisangle="0 1 0 90">
-                <joint name="left_ankle" type="hinge" axis="0 0 -1" pos="0 0 0" damping="1.0" armature="0.2" stiffness="2.0" />
-                <geom mesh="LeftFoot" friction="1.0 0.005 0.0001" />
+                <joint name="left_ankle" type="hinge" axis="0 0 -1" pos="0 0 0" damping="3.0" armature="0.2" stiffness="5.0" />
+                <geom mesh="LeftFoot" friction="2.0 0.01 0.001" />
               </body>
             </body>
           </body>
         </body>
       </body>
       <body name="RightRollHip">
-        <joint name="right_pitch_hip" type="hinge" axis="1 0 0" pos="0 0.051 -0.015" damping="1.0" armature="0.2" stiffness="2.0" />
+        <joint name="right_pitch_hip" type="hinge" axis="1 0 0" pos="0 0.051 -0.015" damping="3.0" armature="0.2" stiffness="5.0" />
         <geom mesh="RightRollHip" />
         <body name="RightYawHip">
-          <joint name="right_roll_hip" type="hinge" axis="0 0 1" pos="-0.1 0.077 0" damping="1.0" armature="0.2" stiffness="2.0" />
+          <joint name="right_roll_hip" type="hinge" axis="0 0 1" pos="-0.1 0.077 0" damping="3.0" armature="0.2" stiffness="5.0" />
           <geom mesh="RightYawHip" />
           <body name="RightThigh">
-            <joint name="right_yaw_hip" type="hinge" axis="0 1 0" pos="-0.099 0 -0.0669" damping="1.0" armature="0.2" stiffness="2.0" />
+            <joint name="right_yaw_hip" type="hinge" axis="0 1 0" pos="-0.099 0 -0.0669" damping="3.0" armature="0.2" stiffness="5.0" />
             <geom mesh="RightThigh" />
             <body name="RightCalf">
-              <joint name="right_knee" type="hinge" axis="1 0 0" pos="0 0.3437 -0.0576" damping="1.0" armature="0.2" stiffness="2.0" />
+              <joint name="right_knee" type="hinge" axis="1 0 0" pos="0 0.3437 -0.0576" damping="3.0" armature="0.2" stiffness="5.0" />
               <geom mesh="RightCalf" />
               <body name="RightFoot" pos="-0.0575 0.5067 -0.0528" axisangle="0 1 0 90">
-                <joint name="right_ankle" type="hinge" axis="0 0 -1" pos="0 0 0" damping="1.0" armature="0.2" stiffness="2.0" />
-                <geom mesh="RightFoot" friction="1.0 0.005 0.0001" />
+                <joint name="right_ankle" type="hinge" axis="0 0 -1" pos="0 0 0" damping="3.0" armature="0.2" stiffness="5.0" />
+                <geom mesh="RightFoot" friction="2.0 0.01 0.001" />
               </body>
             </body>
           </body>
@@ -81,17 +80,17 @@
   </worldbody>
 
   <actuator>
-    <position name="left_ankle" joint="left_ankle" ctrllimited="true" ctrlrange="-1.5708 1.5708" kp="10" kv="0.1" />
-    <position name="left_knee" joint="left_knee" ctrllimited="true" ctrlrange="-1.5708 1.5708" kp="10" kv="0.1" />
-    <position name="left_yaw_hip" joint="left_yaw_hip" ctrllimited="true" ctrlrange="-1.5708 1.5708" kp="5" kv="0.1" />
-    <position name="left_roll_hip" joint="left_roll_hip" ctrllimited="true" ctrlrange="-1.5708 1.5708" kp="5" kv="0.1" />
-    <position name="left_pitch_hip" joint="left_pitch_hip" ctrllimited="true" ctrlrange="-1.5708 1.5708" kp="5" kv="0.1" />
+    <position name="left_ankle" joint="left_ankle" ctrllimited="true" ctrlrange="-1.5708 1.5708" kp="15" kv="2.0" />
+    <position name="left_knee" joint="left_knee" ctrllimited="true" ctrlrange="-1.5708 1.5708" kp="15" kv="2.0" />
+    <position name="left_yaw_hip" joint="left_yaw_hip" ctrllimited="true" ctrlrange="-1.5708 1.5708" kp="10" kv="2.0" />
+    <position name="left_roll_hip" joint="left_roll_hip" ctrllimited="true" ctrlrange="-1.5708 1.5708" kp="10" kv="2.0" />
+    <position name="left_pitch_hip" joint="left_pitch_hip" ctrllimited="true" ctrlrange="-1.5708 1.5708" kp="10" kv="2.0" />
 
-    <position name="right_ankle" joint="right_ankle" ctrllimited="true" ctrlrange="-1.5708 1.5708" kp="10" kv="0.1" />
-    <position name="right_knee" joint="right_knee" ctrllimited="true" ctrlrange="-1.5708 1.5708" kp="10" kv="0.1" />
-    <position name="right_yaw_hip" joint="right_yaw_hip" ctrllimited="true" ctrlrange="-1.5708 1.5708" kp="5" kv="0.1" />
-    <position name="right_roll_hip" joint="right_roll_hip" ctrllimited="true" ctrlrange="-1.5708 1.5708" kp="5" kv="0.1" />
-    <position name="right_pitch_hip" joint="right_pitch_hip" ctrllimited="true" ctrlrange="-1.5708 1.5708" kp="5" kv="0.1" />
+    <position name="right_ankle" joint="right_ankle" ctrllimited="true" ctrlrange="-1.5708 1.5708" kp="15" kv="2.0" />
+    <position name="right_knee" joint="right_knee" ctrllimited="true" ctrlrange="-1.5708 1.5708" kp="15" kv="2.0" />
+    <position name="right_yaw_hip" joint="right_yaw_hip" ctrllimited="true" ctrlrange="-1.5708 1.5708" kp="10" kv="2.0" />
+    <position name="right_roll_hip" joint="right_roll_hip" ctrllimited="true" ctrlrange="-1.5708 1.5708" kp="10" kv="2.0" />
+    <position name="right_pitch_hip" joint="right_pitch_hip" ctrllimited="true" ctrlrange="-1.5708 1.5708" kp="10" kv="2.0" />
   </actuator>
 
   <contact>

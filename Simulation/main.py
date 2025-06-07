@@ -12,6 +12,8 @@ import mujoco  # type: ignore
 m = mujoco.MjModel.from_xml_path("./bars.xml")
 data = mujoco.MjData(m)
 
+state = 0
+
 # policy = ReinforcementModel.Policy()
 
 # rewards = []
@@ -21,10 +23,7 @@ with mujoco.viewer.launch_passive(m, data) as viewer:
     with open("positions.json", "r") as f:
         positions = json.load(f)
 
-    # Set joints to their default positions
-    default_positions = positions["standing"]
-    for joint_name, desired_position in default_positions.items():
-        Utils.set_joint_position(m, data, joint_name, desired_position)
+    Utils.move_to_position(m, data, "standing", positions)
 
     with viewer.lock():
         # viewer.opt.flags[mujoco.mjtVisFlag.mjVIS_CONTACTPOINT] = int(data.time % 2)
@@ -36,12 +35,35 @@ with mujoco.viewer.launch_passive(m, data) as viewer:
     time_since_last_step = time.time()
     time_since_start = time.time()
 
+    time_since_last_state = time.time()
+
     while viewer.is_running():
         step_start = time.time()
 
         # # Add any slower periodic tasks here
         # if(time.time() - time_since_last_step > 0.1):
         #   time_since_last_step = time.time()
+
+        if state == 0 and time.time() - time_since_last_state > 5.0:
+            # Switch to the next state after 1 second
+            state = 1
+            time_since_last_state = time.time()
+            print("Switching to state 1")
+        elif state == 1 and time.time() - time_since_last_state > 0.1:
+            # Switch to the next state after 1 second
+            state = 2
+            time_since_last_state = time.time()
+            print("Switching to state 2")
+        elif state == 2 and time.time() - time_since_last_state > 1.0:
+            # Switch to the next state after 1 second
+            state = 3
+            time_since_last_state = time.time()
+            print("Switching to state 3")
+        elif state == 3 and time.time() - time_since_last_state > 1.0:
+            # Switch to the next state after 1 second
+            state = 0
+            time_since_last_state = time.time()
+            print("Switching to state 0")
 
         # # print(Utils.get_body_position_global(m, data, 'Pelvis'))
 
@@ -60,8 +82,7 @@ with mujoco.viewer.launch_passive(m, data) as viewer:
             time_since_start = time.time()
 
             # Set the joints to their default positions again
-            for joint_name, desired_position in default_positions.items():
-                Utils.set_joint_position(m, data, joint_name, desired_position)
+            Utils.move_to_position(m, data, "standing", positions)
 
 
         # Get and apply a random action
