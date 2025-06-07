@@ -18,10 +18,11 @@ data = mujoco.MjData(m)
 
 with mujoco.viewer.launch_passive(m, data) as viewer:
     # Load default positions from a JSON file
-    with open("default_positions.json", "r") as f:
-        default_positions = json.load(f)
+    with open("positions.json", "r") as f:
+        positions = json.load(f)
 
     # Set joints to their default positions
+    default_positions = positions["standing"]
     for joint_name, desired_position in default_positions.items():
         Utils.set_joint_position(m, data, joint_name, desired_position)
 
