@@ -12,9 +12,9 @@ import mujoco  # type: ignore
 m = mujoco.MjModel.from_xml_path("./bars.xml")
 data = mujoco.MjData(m)
 
-policy = ReinforcementModel.Policy()
+# policy = ReinforcementModel.Policy()
 
-rewards = []
+# rewards = []
 
 with mujoco.viewer.launch_passive(m, data) as viewer:
     # Load default positions from a JSON file
@@ -48,12 +48,13 @@ with mujoco.viewer.launch_passive(m, data) as viewer:
         if Utils.get_body_position_global(m, data, "Pelvis")[2] < 0.3:
             time_lasted = time.time() - time_since_start
 
-            reward = ReinforcementModel.get_reward(m, data, time_lasted)
-            print("Reward: ", reward)
-            rewards.append(reward)
+            # reward = ReinforcementModel.get_reward(m, data, time_lasted)
+            # print("Reward: ", reward)
+            # rewards.append(reward)
 
-            policy = ReinforcementModel.train_policy(policy, reward)
+            # policy = ReinforcementModel.train_policy(policy, reward)
 
+            # Reset sim and reward clock
             mujoco.mj_resetData(m, data)
             time_since_start = time.time()
 
@@ -61,10 +62,10 @@ with mujoco.viewer.launch_passive(m, data) as viewer:
             for joint_name, desired_position in default_positions.items():
                 Utils.set_joint_position(m, data, joint_name, desired_position)
 
-        # Add instant control tasks here
+
         # Get and apply a random action
-        action = ReinforcementModel.get_action(m, data, policy, exploration_rate=0.5)
-        ReinforcementModel.apply_action(m, data, action)
+        # action = ReinforcementModel.get_action(m, data, policy, exploration_rate=0.5)
+        # ReinforcementModel.apply_action(m, data, action)
 
         # mj_step can be replaced with code that also evaluates
         # a policy and applies a control signal before stepping the physics.
@@ -78,5 +79,5 @@ with mujoco.viewer.launch_passive(m, data) as viewer:
         if time_until_next_step > 0:
             time.sleep(time_until_next_step)
 
-with open("rewards.json", "w") as f:
-    json.dump(rewards, f)
+# with open("rewards.json", "w") as f:
+#     json.dump(rewards, f)

@@ -27,7 +27,7 @@ joint_names = [
 
 class Policy:
     """
-    A class to represent a policy.
+    A policy to represent a trained model.
     
     Attributes:
         weights (List[float]): The weights of the policy.
@@ -40,6 +40,19 @@ class Policy:
         self.biases = biases
         self.velocity_weights = [0.0] * len(weights)
         self.velocity_biases = [0.0] * len(biases)
+
+    def __init__(self, filename: str):
+        """
+        Initialize the policy from a file.
+        
+        Args:
+            filename: The name of the file containing the policy data.
+        """
+        with open(filename, 'r') as f:
+            data = json.load(f)
+        
+        self.weights = data["weights"]
+        self.biases = data["biases"]
 
     def to_dict(self) -> Dict[str, Any]:
         """
@@ -66,48 +79,73 @@ class Policy:
         """
         return Policy(weights=data["weights"], biases=data["biases"])
 
-def reset_policy() -> Policy:
-    """
-    Reset the policy to its initial state.
+    def reset_policy(self):
+        """
+        Reset the policy to its initial state.
+        """
+        weights = [random.uniform(-MAX_RANGE, MAX_RANGE) for _ in range(len(joint_names))]
+        biases = [random.uniform(-MAX_RANGE, MAX_RANGE) for _ in range(len(joint_names))]
+        
+        self.weights = weights
+        self.biases = biases
+
+
+    def get_action(self, model, data, exploration_rate: float = 0.3) -> Dict[str, float]:
+        """
+        Get the action based on the policy with added exploration.
+        
+        Args:
+            model: The Mujoco model.
+            data: The Mujoco data.
+            policy: The policy to use for generating the action.
+            exploration_rate: The probability of taking a random action (exploration).
+        
+        Returns:
+            A dictionary of joint positions as the action.
+        """
+        joint_positions = {}
+        for joint_name in joint_names:
+            # Get the current joint position
+            current_position = Utils.get_joint_position(model, data, joint_name)
+            
+            # Apply the policy (weights and biases)
+            index = joint_names.index(joint_name)
+            action = current_position + self.biases[index]
+            
+            # Add exploration (randomness)
+            if random.random() < exploration_rate:
+                action += random.uniform(-0.5, 0.5)  # Add small random noise
+            
+            # Clamp the position to the valid range
+            joint_positions[joint_name] = max(-MAX_RANGE, min(MAX_RANGE, action))
+
+        return joint_positions
     
-    Returns:
-        The reset policy.
-    """
-    weights = [random.uniform(-MAX_RANGE, MAX_RANGE) for _ in range(len(joint_names))]
-    biases = [random.uniform(-MAX_RANGE, MAX_RANGE) for _ in range(len(joint_names))]
-    return Policy(weights=weights, biases=biases)
+    def train_policy(self, reward: float):
+        print("trained")
 
 
-def get_action(model, data, policy: Policy, exploration_rate: float = 0.3) -> Dict[str, float]:
+def save_policy(policy: Dict[str, Any]):
     """
-    Get the action based on the policy with added exploration.
+    Save the policy to a file.
     
     Args:
-        model: The Mujoco model.
-        data: The Mujoco data.
-        policy: The policy to use for generating the action.
-        exploration_rate: The probability of taking a random action (exploration).
+        policy: The policy to save.
+    """
+    with open('policy.json', 'w') as f:
+        json.dump(policy, f)
+
+
+def load_policy(filename: str = 'policy.json') -> Policy:
+    """
+    Load the policy from a file.
     
     Returns:
-        A dictionary of joint positions as the action.
+        The loaded policy.
     """
-    joint_positions = {}
-    for joint_name in joint_names:
-        # Get the current joint position
-        current_position = Utils.get_joint_position(model, data, joint_name)
-        
-        # Apply the policy (weights and biases)
-        index = joint_names.index(joint_name)
-        action = current_position + policy.biases[index]
-        
-        # Add exploration (randomness)
-        if random.random() < exploration_rate:
-            action += random.uniform(-0.5, 0.5)  # Add small random noise
-        
-        # Clamp the position to the valid range
-        joint_positions[joint_name] = max(-MAX_RANGE, min(MAX_RANGE, action))
-
-    return joint_positions
+    with open(str, 'r') as f:
+        data = json.load(f)
+    return Policy.from_dict(data)
 
 
 def apply_action(model, data, action: Dict[str, float]):
@@ -144,59 +182,8 @@ def get_reward(model, data, time_spent: float) -> float:
 
     return reward
 
-
-def train_policy(policy: Policy, reward: float) -> Policy:
+class NeuralNetwork:
     """
-    Train the policy based on the reward using learning rate and momentum.
+    A neural network class for policy approximation.
+    """
     
-    Args:
-        policy: The policy to train.
-        reward: The reward to use for training.
-    
-    Returns:
-        The trained policy.
-    """
-    for i in range(len(policy.weights)):
-        # Calculate gradients based on reward and current policy output
-        gradient_weight = reward * policy.weights[i]
-        gradient_bias = reward * policy.biases[i]
-
-        # Update velocities using momentum
-        policy.velocity_weights[i] = MOMENTUM * policy.velocity_weights[i] + LEARNING_RATE * gradient_weight
-        policy.velocity_biases[i] = MOMENTUM * policy.velocity_biases[i] + LEARNING_RATE * gradient_bias
-
-        # Update weights and biases using velocities
-        policy.weights[i] += policy.velocity_weights[i]
-        policy.biases[i] += policy.velocity_biases[i]
-
-    # Ensure weights and biases are within the valid range
-    policy.weights = [max(-MAX_RANGE, min(MAX_RANGE, w)) for w in policy.weights]
-    policy.biases = [max(-MAX_RANGE, min(MAX_RANGE, b)) for b in policy.biases]
-
-    # Save the updated policy
-    save_policy(policy.to_dict())
-
-    return policy
-
-
-def save_policy(policy: Dict[str, Any]):
-    """
-    Save the policy to a file.
-    
-    Args:
-        policy: The policy to save.
-    """
-    with open('policy.json', 'w') as f:
-        json.dump(policy, f)
-
-
-def load_policy() -> Policy:
-    """
-    Load the policy from a file.
-    
-    Returns:
-        The loaded policy.
-    """
-    with open('policy.json', 'r') as f:
-        data = json.load(f)
-    return Policy.from_dict(data)
