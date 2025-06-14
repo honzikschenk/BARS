@@ -1,7 +1,7 @@
 .vscode
+**/.DS_Store
 
 Simulation/MUJOCO_LOG.TXT
 Simulation/__pycache__
-Simulation/.DS_Store
 
 Simulation/rewards.json

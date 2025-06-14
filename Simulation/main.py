@@ -44,26 +44,23 @@ with mujoco.viewer.launch_passive(m, data) as viewer:
         # if(time.time() - time_since_last_step > 0.1):
         #   time_since_last_step = time.time()
 
-        if state == 0 and time.time() - time_since_last_state > 5.0:
-            # Switch to the next state after 1 second
+        if state == 0 and time.time() - time_since_last_state > 2.0:
             state = 1
             time_since_last_state = time.time()
             print("Switching to state 1")
-        elif state == 1 and time.time() - time_since_last_state > 0.1:
-            # Switch to the next state after 1 second
-            state = 2
-            time_since_last_state = time.time()
-            print("Switching to state 2")
-        elif state == 2 and time.time() - time_since_last_state > 1.0:
-            # Switch to the next state after 1 second
-            state = 3
-            time_since_last_state = time.time()
-            print("Switching to state 3")
-        elif state == 3 and time.time() - time_since_last_state > 1.0:
-            # Switch to the next state after 1 second
+
+            Utils.move_to_position(m, data, "left_weight", positions)
+            
+        elif state == 1 and time.time() - time_since_last_state > 3.0:
             state = 0
             time_since_last_state = time.time()
-            print("Switching to state 0")
+            print("Switching to state 2")
+
+            Utils.move_to_position(m, data, "standing", positions)
+
+        # Utils.move_to_position(m, data, "wide_stance", positions)
+
+        # Utils.move_to_position(m, data, "standing", positions)
 
         # # print(Utils.get_body_position_global(m, data, 'Pelvis'))
 
