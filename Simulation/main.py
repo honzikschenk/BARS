@@ -2,9 +2,7 @@
 
 import time
 import json
-import numpy as np
 
-import ReinforcementModel
 import Utils
 
 import mujoco  # type: ignore
@@ -13,10 +11,6 @@ m = mujoco.MjModel.from_xml_path("./bars.xml")
 data = mujoco.MjData(m)
 
 state = 0
-
-# policy = ReinforcementModel.Policy()
-
-# rewards = []
 
 with mujoco.viewer.launch_passive(m, data) as viewer:
     # Load default positions from a JSON file
@@ -44,35 +38,23 @@ with mujoco.viewer.launch_passive(m, data) as viewer:
         # if(time.time() - time_since_last_step > 0.1):
         #   time_since_last_step = time.time()
 
-        if state == 0 and time.time() - time_since_last_state > 2.0:
-            state = 1
-            time_since_last_state = time.time()
-            print("Switching to state 1")
+        # if state == 0 and time.time() - time_since_last_state > 2.0:
+        #     state = 1
+        #     time_since_last_state = time.time()
+        #     print("Switching to state 1")
 
-            Utils.move_to_position(m, data, "left_weight", positions)
+        #     Utils.move_to_position(m, data, "left_weight", positions)
             
-        elif state == 1 and time.time() - time_since_last_state > 3.0:
-            state = 0
-            time_since_last_state = time.time()
-            print("Switching to state 2")
+        # elif state == 1 and time.time() - time_since_last_state > 3.0:
+        #     state = 0
+        #     time_since_last_state = time.time()
+        #     print("Switching to state 2")
 
-            Utils.move_to_position(m, data, "standing", positions)
-
-        # Utils.move_to_position(m, data, "wide_stance", positions)
-
-        # Utils.move_to_position(m, data, "standing", positions)
-
-        # # print(Utils.get_body_position_global(m, data, 'Pelvis'))
+        #     Utils.move_to_position(m, data, "standing", positions)
 
         # Check for reseting sim if robot has fallen
         if Utils.get_body_position_global(m, data, "Pelvis")[2] < 0.3:
             time_lasted = time.time() - time_since_start
-
-            # reward = ReinforcementModel.get_reward(m, data, time_lasted)
-            # print("Reward: ", reward)
-            # rewards.append(reward)
-
-            # policy = ReinforcementModel.train_policy(policy, reward)
 
             # Reset sim and reward clock
             mujoco.mj_resetData(m, data)
@@ -81,10 +63,6 @@ with mujoco.viewer.launch_passive(m, data) as viewer:
             # Set the joints to their default positions again
             Utils.move_to_position(m, data, "standing", positions)
 
-
-        # Get and apply a random action
-        # action = ReinforcementModel.get_action(m, data, policy, exploration_rate=0.5)
-        # ReinforcementModel.apply_action(m, data, action)
 
         # mj_step can be replaced with code that also evaluates
         # a policy and applies a control signal before stepping the physics.
@@ -97,6 +75,3 @@ with mujoco.viewer.launch_passive(m, data) as viewer:
         time_until_next_step = m.opt.timestep - (time.time() - step_start)
         if time_until_next_step > 0:
             time.sleep(time_until_next_step)
-
-# with open("rewards.json", "w") as f:
-#     json.dump(rewards, f)
