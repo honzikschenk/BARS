@@ -11,6 +11,32 @@
 #ifndef BODYTOFOOTIK_HPP
 #define BODYTOFOOTIK_HPP
 
+#include <vector>
 
+class BodyToFootIK {
+    public:
+        BodyToFootIK();
+
+        /**
+         * @brief Calculates the inverse kinematics to move a foot to a specific coordinate relative to the body.
+         * @param x
+         * @param y
+         * @param z
+         * @return A vector containing the angles for all of the joints.
+         */
+        std::vector<double> calculateIK(double x, double y, double z);
+    
+    private:
+        /**
+         * @brief Converts radians to a range between min and max.
+         * @param radians The angle in radians to convert.
+         * @param positionMin The minimum position of the joint, typically equal to -pi/2.
+         * @param positionMax The maximum position of the joint, typically equal to pi/2.
+         * @param min The minimum value equal to -pi/2.
+         * @param max The maximum value equal to pi/2.
+         * @return The converted angle within the specified range.
+         */
+        double interpolateRange(double radians, double positionMin, double positionMax, double min, double max);
+};
 
 #endif // BODYTOFOOTIK_HPP
