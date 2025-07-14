@@ -83,13 +83,13 @@
     <position name="left_ankle" joint="left_ankle" ctrllimited="true" ctrlrange="-1.5708 1.5708" kp="15" kv="2.0" />
     <position name="left_knee" joint="left_knee" ctrllimited="true" ctrlrange="-1.5708 1.5708" kp="15" kv="2.0" />
     <position name="left_yaw_hip" joint="left_yaw_hip" ctrllimited="true" ctrlrange="-1.5708 1.5708" kp="10" kv="2.0" />
-    <position name="left_roll_hip" joint="left_roll_hip" ctrllimited="true" ctrlrange="-1.5708 1.5708" kp="10" kv="2.0" />
+    <position name="left_roll_hip" joint="left_roll_hip" ctrllimited="true" ctrlrange="-1.5708 1.5708" kp="15" kv="2.0" />
     <position name="left_pitch_hip" joint="left_pitch_hip" ctrllimited="true" ctrlrange="-1.5708 1.5708" kp="10" kv="2.0" />
 
     <position name="right_ankle" joint="right_ankle" ctrllimited="true" ctrlrange="-1.5708 1.5708" kp="15" kv="2.0" />
     <position name="right_knee" joint="right_knee" ctrllimited="true" ctrlrange="-1.5708 1.5708" kp="15" kv="2.0" />
     <position name="right_yaw_hip" joint="right_yaw_hip" ctrllimited="true" ctrlrange="-1.5708 1.5708" kp="10" kv="2.0" />
-    <position name="right_roll_hip" joint="right_roll_hip" ctrllimited="true" ctrlrange="-1.5708 1.5708" kp="10" kv="2.0" />
+    <position name="right_roll_hip" joint="right_roll_hip" ctrllimited="true" ctrlrange="-1.5708 1.5708" kp="15" kv="2.0" />
     <position name="right_pitch_hip" joint="right_pitch_hip" ctrllimited="true" ctrlrange="-1.5708 1.5708" kp="10" kv="2.0" />
   </actuator>
 
