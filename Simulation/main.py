@@ -1,4 +1,4 @@
-# Run python main.py
+# Run mjpython main.py
 # Enhanced gait generation with interactive tuning
 
 import time

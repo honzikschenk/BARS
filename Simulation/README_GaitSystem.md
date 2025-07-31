@@ -33,17 +33,17 @@ The system provides:
 
 ### Interactive Mode (with display)
 ```bash
-python main.py
+mjpython main.py
 ```
 
 ### Demo Mode (headless)
 ```bash
-python demo_gait_system.py
+mjpython demo_gait_system.py
 ```
 
 ### Validation Tests
 ```bash
-python validate_gait_system.py
+mjpython validate_gait_system.py
 ```
 
 ## Interactive Controls
@@ -154,8 +154,8 @@ COM is computed by:
 ## Getting Started
 
 1. Ensure MuJoCo is installed: `pip install mujoco numpy`
-2. Run the demo: `python demo_gait_system.py`
-3. Try interactive mode: `python main.py` (requires display)
+2. Run the demo: `mjpython demo_gait_system.py`
+3. Try interactive mode: `mjpython main.py` (requires display)
 4. Experiment with different parameters and presets
 5. Save your favorite gait configurations
 

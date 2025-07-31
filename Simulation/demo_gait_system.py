@@ -197,7 +197,7 @@ def test_gait_generation():
     print("✓ Comprehensive stability monitoring")
     
     print()
-    print("Ready for interactive use! Run 'python main.py' with a display to use the full interface.")
+    print("Ready for interactive use! Run 'mjpython main.py' with a display to use the full interface.")
     
     return True
 
