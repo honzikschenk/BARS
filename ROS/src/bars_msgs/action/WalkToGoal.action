@@ -1,0 +1,13 @@
+# Action for walking to a goal position
+geometry_msgs/Pose target_pose    # Target pose to walk to
+float32 max_velocity             # Maximum walking velocity
+bool avoid_obstacles             # Whether to avoid obstacles
+---
+geometry_msgs/Pose final_pose    # Final achieved pose
+float64 total_distance           # Total distance walked
+float64 total_time              # Total time taken
+bool success                    # Whether goal was reached successfully
+---
+geometry_msgs/Pose current_pose  # Current pose during walking
+float32 distance_remaining       # Distance remaining to goal
+float32 estimated_time_remaining # Estimated time to completion
