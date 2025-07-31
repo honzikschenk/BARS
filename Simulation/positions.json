@@ -23,6 +23,18 @@
     "right_knee": 0.45,
     "right_ankle": 0.3
   },
+  "right_weight": {
+    "left_pitch_hip": -0.2,
+    "left_roll_hip": 0.2,
+    "left_yaw_hip": 0.0,
+    "left_knee": 0.45,
+    "left_ankle": 0.3,
+    "right_pitch_hip": -0.2,
+    "right_roll_hip": 0.2,
+    "right_yaw_hip": 0.0,
+    "right_knee": 0.45,
+    "right_ankle": 0.1
+  },
   "wide_stance": {
     "left_pitch_hip": -0.2,
     "left_roll_hip": -0.5,
@@ -34,5 +46,65 @@
     "right_yaw_hip": 0.0,
     "right_knee": 0.45,
     "right_ankle": 0.35
+  },
+  "left_swing_prepare": {
+    "left_pitch_hip": -0.1,
+    "left_roll_hip": -0.3,
+    "left_yaw_hip": 0.0,
+    "left_knee": 0.6,
+    "left_ankle": 0.2,
+    "right_pitch_hip": -0.3,
+    "right_roll_hip": -0.1,
+    "right_yaw_hip": 0.0,
+    "right_knee": 0.35,
+    "right_ankle": 0.4
+  },
+  "left_swing_forward": {
+    "left_pitch_hip": 0.3,
+    "left_roll_hip": -0.2,
+    "left_yaw_hip": 0.0,
+    "left_knee": 0.8,
+    "left_ankle": 0.1,
+    "right_pitch_hip": -0.3,
+    "right_roll_hip": -0.1,
+    "right_yaw_hip": 0.0,
+    "right_knee": 0.35,
+    "right_ankle": 0.4
+  },
+  "right_swing_prepare": {
+    "left_pitch_hip": -0.3,
+    "left_roll_hip": 0.1,
+    "left_yaw_hip": 0.0,
+    "left_knee": 0.35,
+    "left_ankle": 0.4,
+    "right_pitch_hip": -0.1,
+    "right_roll_hip": 0.3,
+    "right_yaw_hip": 0.0,
+    "right_knee": 0.6,
+    "right_ankle": 0.2
+  },
+  "right_swing_forward": {
+    "left_pitch_hip": -0.3,
+    "left_roll_hip": 0.1,
+    "left_yaw_hip": 0.0,
+    "left_knee": 0.35,
+    "left_ankle": 0.4,
+    "right_pitch_hip": 0.3,
+    "right_roll_hip": 0.2,
+    "right_yaw_hip": 0.0,
+    "right_knee": 0.8,
+    "right_ankle": 0.1
+  },
+  "crouch": {
+    "left_pitch_hip": -0.5,
+    "left_roll_hip": 0.0,
+    "left_yaw_hip": 0.0,
+    "left_knee": 0.8,
+    "left_ankle": 0.5,
+    "right_pitch_hip": -0.5,
+    "right_roll_hip": 0.0,
+    "right_yaw_hip": 0.0,
+    "right_knee": 0.8,
+    "right_ankle": 0.5
   }
 }

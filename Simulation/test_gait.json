@@ -1,0 +1,130 @@
+{
+  "parameters": {
+    "step_length": 0.15,
+    "step_height": 0.05,
+    "step_width": 0.2,
+    "phase_duration": 2.0,
+    "shift_duration": 1.0
+  },
+  "phases": [
+    {
+      "name": "standing",
+      "joint_positions": {
+        "left_pitch_hip": -0.2,
+        "left_roll_hip": 0.0,
+        "left_yaw_hip": 0.0,
+        "left_knee": 0.45,
+        "left_ankle": 0.35,
+        "right_pitch_hip": -0.2,
+        "right_roll_hip": 0.0,
+        "right_yaw_hip": 0.0,
+        "right_knee": 0.45,
+        "right_ankle": 0.35
+      },
+      "duration": 2.0,
+      "support_foot": "both"
+    },
+    {
+      "name": "weight_right",
+      "joint_positions": {
+        "left_pitch_hip": -0.2,
+        "left_roll_hip": -0.3,
+        "left_yaw_hip": 0.0,
+        "left_knee": 0.45,
+        "left_ankle": 0.35,
+        "right_pitch_hip": -0.2,
+        "right_roll_hip": -0.1,
+        "right_yaw_hip": 0.0,
+        "right_knee": 0.45,
+        "right_ankle": 0.35
+      },
+      "duration": 1.0,
+      "support_foot": "right"
+    },
+    {
+      "name": "left_swing",
+      "joint_positions": {
+        "left_pitch_hip": 0.3,
+        "left_roll_hip": -0.3,
+        "left_yaw_hip": 0.0,
+        "left_knee": 0.8,
+        "left_ankle": 0.1,
+        "right_pitch_hip": -0.2,
+        "right_roll_hip": -0.1,
+        "right_yaw_hip": 0.0,
+        "right_knee": 0.45,
+        "right_ankle": 0.35
+      },
+      "duration": 2.0,
+      "support_foot": "right"
+    },
+    {
+      "name": "left_stance",
+      "joint_positions": {
+        "left_pitch_hip": -0.3,
+        "left_roll_hip": 0.0,
+        "left_yaw_hip": 0.0,
+        "left_knee": 0.45,
+        "left_ankle": 0.35,
+        "right_pitch_hip": -0.1,
+        "right_roll_hip": 0.0,
+        "right_yaw_hip": 0.0,
+        "right_knee": 0.45,
+        "right_ankle": 0.35
+      },
+      "duration": 1.0,
+      "support_foot": "both"
+    },
+    {
+      "name": "weight_left",
+      "joint_positions": {
+        "left_pitch_hip": -0.2,
+        "left_roll_hip": 0.1,
+        "left_yaw_hip": 0.0,
+        "left_knee": 0.45,
+        "left_ankle": 0.35,
+        "right_pitch_hip": -0.2,
+        "right_roll_hip": 0.3,
+        "right_yaw_hip": 0.0,
+        "right_knee": 0.45,
+        "right_ankle": 0.35
+      },
+      "duration": 1.0,
+      "support_foot": "left"
+    },
+    {
+      "name": "right_swing",
+      "joint_positions": {
+        "left_pitch_hip": -0.2,
+        "left_roll_hip": 0.1,
+        "left_yaw_hip": 0.0,
+        "left_knee": 0.45,
+        "left_ankle": 0.35,
+        "right_pitch_hip": 0.3,
+        "right_roll_hip": 0.3,
+        "right_yaw_hip": 0.0,
+        "right_knee": 0.8,
+        "right_ankle": 0.1
+      },
+      "duration": 2.0,
+      "support_foot": "left"
+    },
+    {
+      "name": "right_stance",
+      "joint_positions": {
+        "left_pitch_hip": -0.1,
+        "left_roll_hip": 0.0,
+        "left_yaw_hip": 0.0,
+        "left_knee": 0.45,
+        "left_ankle": 0.35,
+        "right_pitch_hip": -0.3,
+        "right_roll_hip": 0.0,
+        "right_yaw_hip": 0.0,
+        "right_knee": 0.45,
+        "right_ankle": 0.35
+      },
+      "duration": 1.0,
+      "support_foot": "both"
+    }
+  ]
+}
