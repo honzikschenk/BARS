@@ -35,6 +35,19 @@ The robot uses a distributed computing approach:
 
 ## Project Structure
 
+### `/ROS/`
+
+**NEW!** ROS2 framework for system integration and communication. Provides:
+
+- Multi-architecture Docker support (x86, ARM64) for cross-platform development
+- Standardized communication interfaces between robot components
+- Arduino bridge for serial communication with microcontroller
+- Servo control with safety limits and joint mapping
+- Integration with existing MuJoCo simulation
+- Support for Linux, macOS (Silicon), and Windows development
+
+See [ROS/README.md](ROS/README.md) for detailed setup and usage instructions.
+
 ### `/arduino-code/`
 
 PlatformIO-based firmware for the Arduino microcontroller. Handles real-time motor control, low-level sensor reading, and communication with the Jetson computer.
@@ -77,6 +90,7 @@ Work in Progress. Plans are to:
 
 ### Prerequisites
 
+- Docker and Docker Compose (recommended for ROS2 development)
 - Python 3.8+ with pip
 - Arduino IDE or PlatformIO
 - MuJoCo physics engine
@@ -91,7 +105,21 @@ Work in Progress. Plans are to:
    cd BARS
    ```
 
-2. **Set up Python environment**
+2. **ROS2 Development (Recommended)**
+
+   ```bash
+   cd ROS
+   # Build Docker containers for your platform (x86/ARM64)
+   ./dev.sh build
+   
+   # Start development environment
+   ./dev.sh dev
+   
+   # Build ROS2 workspace (inside container)
+   ./dev.sh workspace
+   ```
+
+3. **Alternative: Native Python Environment**
 
    ```bash
    python -m venv .venv
@@ -99,14 +127,14 @@ Work in Progress. Plans are to:
    pip install -r requirements.txt # To come soon (when needed)
    ```
 
-3. **Test the simulation**
+4. **Test the simulation**
 
    ```bash
    cd Simulation
    mjpython main.py
    ```
 
-4. **Build StateManager**
+5. **Build StateManager**
 
    ```bash
    cd StateManager
@@ -115,6 +143,7 @@ Work in Progress. Plans are to:
 
 ### Running the Project
 
+- **ROS2 System**: `cd ROS && docker-compose up` or `ros2 launch bars_bringup bars.launch.py`
 - **Simulation**: `cd Simulation && mjpython main.py`
 - **Arduino**: Use PlatformIO to upload `arduino-code/` to your microcontroller
 
@@ -124,6 +153,8 @@ Work in Progress. Plans are to:
 - [x] Physics simulation environment
 - [x] Arduino control framework
 - [x] State management system
+- [x] **ROS2 framework with Docker support**
+- [x] **Multi-architecture development environment**
 - [ ] Basic gait control
 - [ ] Neural network training
 - [ ] Hardware integration
