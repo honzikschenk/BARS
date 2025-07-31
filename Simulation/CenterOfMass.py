@@ -36,13 +36,16 @@ class CenterOfMassCalculator:
         Returns:
             numpy.ndarray: 3D position of the center of mass
         """
-        # Calculate COM by summing weighted body positions
+        # Calculate COM by summing weighted body positions (excluding world and floor)
         total_mass = 0.0
         com_pos = np.zeros(3)
         
         # Iterate through all bodies and calculate weighted COM
         for body_id in range(self.model.nbody):
-            if body_id == 0:  # Skip world body
+            body_name = self.model.body(body_id).name
+            
+            # Skip world, floor, and any other non-robot bodies
+            if body_id == 0 or body_name in ['world', 'Floor']:
                 continue
             
             body_mass = self.model.body_mass[body_id]
@@ -63,12 +66,15 @@ class CenterOfMassCalculator:
         Returns:
             numpy.ndarray: 3D velocity of the center of mass
         """
-        # Calculate COM velocity by summing weighted body velocities
+        # Calculate COM velocity by summing weighted body velocities (excluding world and floor)
         total_mass = 0.0
         com_vel = np.zeros(3)
         
         for body_id in range(self.model.nbody):
-            if body_id == 0:  # Skip world body
+            body_name = self.model.body(body_id).name
+            
+            # Skip world, floor, and any other non-robot bodies
+            if body_id == 0 or body_name in ['world', 'Floor']:
                 continue
             
             body_mass = self.model.body_mass[body_id]
@@ -96,13 +102,24 @@ class CenterOfMassCalculator:
         for i in range(self.data.ncon):
             contact = self.data.contact[i]
             
-            # Check if contact involves a foot
-            geom1_name = self.model.geom(contact.geom1).name if contact.geom1 < self.model.ngeom else ""
-            geom2_name = self.model.geom(contact.geom2).name if contact.geom2 < self.model.ngeom else ""
-            
-            if "Foot" in geom1_name or "Foot" in geom2_name:
-                # This is a foot contact
-                contact_points.append(contact.pos.copy())
+            # Get the body IDs for the geometries in contact
+            try:
+                body1_id = self.model.geom_bodyid[contact.geom1] if contact.geom1 < self.model.ngeom else -1
+                body2_id = self.model.geom_bodyid[contact.geom2] if contact.geom2 < self.model.ngeom else -1
+                
+                body1_name = self.model.body(body1_id).name if body1_id >= 0 else ""
+                body2_name = self.model.body(body2_id).name if body2_id >= 0 else ""
+                
+                # Check if contact involves a foot and the floor
+                is_foot_contact = (("Foot" in body1_name or "Foot" in body2_name) and 
+                                   ("Floor" in body1_name or "Floor" in body2_name))
+                
+                if is_foot_contact:
+                    # This is a foot-floor contact
+                    contact_points.append(contact.pos.copy())
+                    
+            except:
+                continue
         
         return contact_points
     
