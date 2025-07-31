@@ -6,3 +6,9 @@ Simulation/MUJOCO_LOG.TXT
 Simulation/__pycache__
 
 Simulation/rewards.json
+
+# ROS2 build artifacts
+ROS/build/
+ROS/install/
+ROS/log/
+ROS/**/__pycache__

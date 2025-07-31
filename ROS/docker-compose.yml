@@ -1,0 +1,75 @@
+version: '3.8'
+
+services:
+  # Development container
+  bars_dev:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+      target: development
+      platforms:
+        - linux/amd64
+        - linux/arm64
+    container_name: bars_dev
+    privileged: true  # Required for hardware access
+    volumes:
+      - .:/workspace/src
+      - /dev:/dev  # Device access for Arduino
+      - bars_build:/workspace/build
+      - bars_install:/workspace/install
+      - bars_log:/workspace/log
+    working_dir: /workspace
+    environment:
+      - ROS_DOMAIN_ID=42
+      - DISPLAY=${DISPLAY:-}
+      - QT_X11_NO_MITSHM=1
+    network_mode: host
+    stdin_open: true
+    tty: true
+    command: bash
+
+  # Production container
+  bars_prod:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+      target: production
+      platforms:
+        - linux/amd64
+        - linux/arm64
+    container_name: bars_prod
+    privileged: true
+    volumes:
+      - /dev:/dev
+    environment:
+      - ROS_DOMAIN_ID=42
+    network_mode: host
+    restart: unless-stopped
+
+  # Simulation container (for MuJoCo integration)
+  bars_sim:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+      target: development
+    container_name: bars_sim
+    volumes:
+      - .:/workspace/src
+      - bars_build:/workspace/build
+      - bars_install:/workspace/install
+      - bars_log:/workspace/log
+      - /tmp/.X11-unix:/tmp/.X11-unix:rw
+    environment:
+      - ROS_DOMAIN_ID=42
+      - DISPLAY=${DISPLAY:-}
+      - QT_X11_NO_MITSHM=1
+      - MUJOCO_GL=egl
+    network_mode: host
+    stdin_open: true
+    tty: true
+    command: bash
+
+volumes:
+  bars_build:
+  bars_install:
+  bars_log:

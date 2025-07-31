@@ -1,0 +1,7 @@
+# Service to set the robot's state machine state
+string target_state    # Target state to transition to
+bool force_transition  # Force transition even if not normally allowed
+---
+bool success           # Whether state transition was successful
+string current_state   # Current state after transition attempt
+string message         # Additional information or error message
