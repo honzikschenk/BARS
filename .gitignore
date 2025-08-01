@@ -7,6 +7,11 @@ Simulation/__pycache__
 
 Simulation/rewards.json
 
+# Python cache files
+**/__pycache__
+*.pyc
+*.pyo
+
 # ROS2 build artifacts
 ROS/build/
 ROS/install/
