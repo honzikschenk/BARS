@@ -1,0 +1,89 @@
+# Servo configuration for BARS robot
+servos:
+  0:
+    joint: "left_hip_pitch"
+    offset: 0.0
+    direction: 1
+    min_angle: -0.5
+    max_angle: 0.5
+  1:
+    joint: "left_hip_roll"
+    offset: 0.0
+    direction: 1
+    min_angle: -0.3
+    max_angle: 0.3
+  2:
+    joint: "left_hip_yaw"
+    offset: 0.0
+    direction: 1
+    min_angle: -0.2
+    max_angle: 0.2
+  3:
+    joint: "left_knee_pitch"
+    offset: 0.0
+    direction: 1
+    min_angle: 0.0
+    max_angle: 1.5
+  4:
+    joint: "left_ankle_pitch"
+    offset: 0.0
+    direction: 1
+    min_angle: -0.3
+    max_angle: 0.3
+  5:
+    joint: "left_ankle_roll"
+    offset: 0.0
+    direction: 1
+    min_angle: -0.2
+    max_angle: 0.2
+  6:
+    joint: "right_hip_pitch"
+    offset: 0.0
+    direction: -1  # Mirror left side
+    min_angle: -0.5
+    max_angle: 0.5
+  7:
+    joint: "right_hip_roll"
+    offset: 0.0
+    direction: -1
+    min_angle: -0.3
+    max_angle: 0.3
+  8:
+    joint: "right_hip_yaw"
+    offset: 0.0
+    direction: -1
+    min_angle: -0.2
+    max_angle: 0.2
+  9:
+    joint: "right_knee_pitch"
+    offset: 0.0
+    direction: -1
+    min_angle: 0.0
+    max_angle: 1.5
+  10:
+    joint: "right_ankle_pitch"
+    offset: 0.0
+    direction: -1
+    min_angle: -0.3
+    max_angle: 0.3
+  11:
+    joint: "right_ankle_roll"
+    offset: 0.0
+    direction: -1
+    min_angle: -0.2
+    max_angle: 0.2
+
+# Joint limits for safety
+limits:
+  hip_pitch: [-0.5, 0.5]
+  hip_roll: [-0.3, 0.3]
+  hip_yaw: [-0.2, 0.2]
+  knee_pitch: [0.0, 1.5]
+  ankle_pitch: [-0.3, 0.3]
+  ankle_roll: [-0.2, 0.2]
+
+# Control parameters
+control:
+  max_angle_change_rate: 1.0  # rad/s
+  default_speed: 0.5
+  safety_enabled: true

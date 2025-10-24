@@ -1,0 +1,7 @@
+# Service to get comprehensive robot status
+bool include_servo_details    # Whether to include detailed servo information
+---
+bars_msgs/RobotState robot_state    # Overall robot state
+bars_msgs/ServoState[] servo_states # Individual servo states (if requested)
+bool success                        # Whether status retrieval was successful
+string message                      # Additional information or error message
